@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    @import url(https://fonts.googleapis.com/css?family=Montserrat);
+
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+
+    html {
+      height: 100%;
+      background-color: white;
+    }
+
+    body {
+      font-family: montserrat, arial, verdana;
+    }
+
+    #multistepsform {
+      width: 400px;
+      margin: 50px auto;
+      text-align: center;
+      position: relative;
+    }
+
+    #multistepsform fieldset {
+      background: white;
+      border: 0 none;
+      border-radius: 3px;
+      box-shadow: 0 0 15px 1px rgba(0, 0, 0, 0.4);
+      padding: 20px 30px;
+      box-sizing: border-box;
+      width: 80%;
+      margin: 0 10%;
+      position: relative;
+    }
+
+    #multistepsform fieldset:not(:first-of-type) {
+      display: none;
+    }
+
+    #multistepsform input,
+    #multistepsform select,
+    #multistepsform textarea {
+      padding: 15px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      margin-bottom: 10px;
+      width: 100%;
+      box-sizing: border-box;
+      font-family: montserrat;
+      color: #2c3e50;
+      font-size: 13px;
+    }
+
+    #multistepsform input:focus,
+    #multistepsform textarea:focus {
+      border-color: #679b9b;
+      outline: none;
+      color: #637373;
+    }
+
+    #multistepsform .action-button {
+      width: 100px;
+      background: rgb(220 38 38);
+      font-weight: bold;
+      color: #fff;
+      transition: 150ms;
+      border: 0 none;
+      border-radius: 1px;
+      cursor: pointer;
+      padding: 10px 5px;
+      margin: 10px 5px;
+    }
+
+    #multistepsform .action-button:hover,
+    #multistepsform .action-button:focus {
+      box-shadow: 0 0 0 2px rgb(220 38 38), 0 0 0 3px;
+      color: #fff;
+    }
+
+    #multistepsform .fs-title {
+      font-size: 15px;
+      text-transform: uppercase;
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    #multistepsform .fs-subtitle {
+      font-weight: normal;
+      font-size: 13px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    #multistepsform #progressbar {
+      margin-bottom: 30px;
+      overflow: hidden;
+      counter-reset: step;
+    }
+
+    #multistepsform #progressbar li {
+      list-style-type: none;
+      color: #679b9b;
+      text-transform: uppercase;
+      font-size: 9px;
+      width: 33.33%;
+      float: left;
+      position: relative;
+    }
+
+    #multistepsform #progressbar li:before {
+      content: counter(step);
+      counter-increment: step;
+      width: 20px;
+      line-height: 20px;
+      display: block;
+      font-size: 10px;
+      color: #fff;
+      background: #679b9b;
+      border-radius: 3px;
+      margin: 0 auto 5px auto;
+    }
+
+    #multistepsform #progressbar li:after {
+      content: "";
+      width: 100%;
+      height: 2px;
+      background: #679b9b;
+      position: absolute;
+      left: -50%;
+      top: 9px;
+      z-index: -1;
+    }
+
+    #multistepsform #progressbar li:first-child:after {
+      content: none;
+    }
+
+    #multistepsform #progressbar li.active {
+      color: rgb(220 38 38);
+    }
+
+    #multistepsform #progressbar li.active:before,
+    #multistepsform #progressbar li.active:after {
+      background: rgb(220 38 38);
+      color: white;
+    }
+
+    table {
+      border-collapse: collapse;
+      border-spacing: 0;
+      width: 100%;
+      border: 1px solid #ddd;
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2
+    }
+
+    @media (prefers-color-scheme: dark) {
+      html {
+        background-color: rgb(15 23 42);
+        color: white;
+
+      }
+
+      #multistepsform fieldset {
+        background-color: rgb(30 41 59);
+      }
+
+      #multistepsform .fs-title {
+        font-size: 15px;
+        text-transform: uppercase;
+        color: white;
+        margin-bottom: 10px;
+      }
+
+      #multistepsform .fs-subtitle {
+        font-weight: normal;
+        font-size: 13px;
+        color: white;
+        margin-bottom: 20px;
+      }
+
+      #multistepsform input,
+      #multistepsform select,
+      #multistepsform textarea {
+        padding: 15px;
+        /* border: 1px solid #ccc; */
+        border-radius: 3px;
+        margin-bottom: 10px;
+        width: 100%;
+        box-sizing: border-box;
+        font-family: montserrat;
+        color: white;
+        background-color: rgba(15, 23, 42, 0.469);
+        font-size: 13px;
+      }
+
+      #multistepsform input:focus,
+      #multistepsform textarea:focus {
+        border-color: #679b9b;
+        outline: none;
+        color: #637373;
+      }
+    }
+  </style>
+  <title>Pengajuan Surat</title>
+</head>
+
+<body>
+  <main>
+    <form id="multistepsform">
+      <!-- progressbar -->
+      <ul id="progressbar" class="">
+        <li class="active">Data Kampus</li>
+        <li>Data Instansi</li>
+        <li>Data Anggota</li>
+
+      </ul>
+      <!-- fieldsets -->
+      <fieldset class="hidden">
+        <h2 class="fs-title">Kebutuhan Surat </h2>
+        <h3 class="fs-subtitle"></h3>
+        <select name="jenis_surat" placeholder="Jenis Surat">
+          <option value="">tes</option>
+        </select>
+
+        <select name="jenis_surat" placeholder="Kebutuhan">
+          <option value="">tes</option>
+
+        </select>
+
+        <select name="dosen" placeholder="Password">
+          <option value="">tes</option>
+
+        </select>
+        <input type="date" name="date" placeholder="Tanggal" />
+        <input type="button" name="next" class="next action-button" value="Next" />
+      </fieldset>
+
+      <fieldset>
+        <h2 class="fs-title">Data Instansi</h2>
+        <h3 class="fs-subtitle">Mohon isi kolom dibawah ini dengan benar</h3>
+        <input type="text" name="fname" placeholder="Kepada" />
+        <textarea name="alamat" placeholder="Alamat"></textarea>
+        <textarea name="keterangan" placeholder="Keterangan"></textarea>
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+
+        <input type="button" name="next" class="next action-button" value="Next" />
+      </fieldset>
+      <fieldset>
+        <h2 class="fs-title">Data Anggota</h2>
+        <div style="padding:  0.5rem  0 1rem 0; display: flex; justify-content: center;">
+          <div style=" float: left;
+        clear: none;">
+            <input style=" float: left;
+      clear: none;
+      margin: 2px 0 0 2px;" type="radio" id="individu" name="status_keanggotan" value="individu" id="individu">
+            <label for="" style="float: left;
+          clear: none;
+          display: block;
+          padding: 0px 1em 0px 8px;">Individu</label>
+          </div>
+          <div style=" float: left;
+        clear: none;">
+            <input style=" float: left;
+      clear: none;
+      margin: 2px 0 0 2px;" type="radio" id="kelompok" name="status_keanggotan" id="" value="kelompok">
+            <label for="" style="float: left;
+          clear: none;
+          display: block;
+          padding: 0px 1em 0px 8px;">Kelompok</label>
+          </div>
+        </div>
+        <div id="form-individu" style="display: none;">
+          <input type="text" name="fname" placeholder="Muhammad Adi Saputro" />
+          <input type="text" name="fname" placeholder="E41210759" />
+          <input type="text" name="fname" placeholder="TIF" />
+        </div>
+        <div id="form-kelompok" style="display: none; overflow-x:auto;">
+          <button type="button" id="tambahAnggota" class="action-button">+</button>
+          <div id="parent-list">
+            <div id="list"
+              style="border-style: solid; border-color: #e1e1e1; padding: 1rem 1rem 1rem 1rem; margin-bottom: 1.5rem;">
+              <input type="text" name="nama_anggota[]" placeholder="Nama Mahasiswa" />
+              <input type="text" name="nim_anggota[]" placeholder="NIM Mahasiswa" />
+              <input type="text" name="nohp_anggota[]" placeholder="No. HP Mahasiswa" />
+              <input type="text" name="prodi_id_anggota[]" placeholder="Jurusan Mahasiswa" />
+            </div>
+          </div>
+        </div>
+        <input type="button" name="previous" class="previous action-button" value="Previous" />
+        <input type="submit" name="submit" class="submit action-button" value="Submit" />
+      </fieldset>
+    </form>
+  </main>
+</body>
+<script src="../assets/js/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<script>
+  $(document).ready(function () {
+    let template = `<div id="list" style="border-style: solid; border-color: #e1e1e1; padding: 1rem 1rem 1rem 1rem; margin-bottom: 1.5rem;">
+          <input type="text" name="nama_anggota[]" placeholder="Nama Mahasiswa" />
+          <input type="text" name="nim_anggota[]" placeholder="NIM Mahasiswa" />
+          <input type="text" name="nohp_anggota[]" placeholder="No. HP Mahasiswa" />
+          <input type="text" name="prodi_id_anggota[]" placeholder="Jurusan Mahasiswa" />
+          <button type="button" id="hapusField" class="action-button">x</button>
+         </div>`;
+
+    $("#tambahAnggota").on("click", () => {
+      $("#parent-list").append(template);
+    })
+    $("body").on("click", "#hapusField", (e) => {
+      $(e.target).parent("div").remove();
+    })
+  });
+  var current_fs, next_fs, previous_fs;
+  var left, opacity, scale;
+  var animating;
+  $(".next").click(function () {
+    if (animating) return false;
+    animating = true;
+
+    current_fs = $(this).parent();
+    next_fs = $(this).parent().next();
+    $("#progressbar li").eq($("fieldset").index(next_fs)).addClass("active");
+    next_fs.show();
+    current_fs.animate(
+      { opacity: 0 },
+      {
+        step: function (now, mx) {
+          scale = 1 - (1 - now) * 0.2;
+          left = now * 50 + "%";
+          opacity = 1 - now;
+          current_fs.css({
+            transform: "scale(" + scale + ")",
+            position: "absolute"
+          });
+          next_fs.css({ left: left, opacity: opacity });
+        },
+        duration: 800,
+        complete: function () {
+          current_fs.hide();
+          animating = false;
+        },
+        easing: "easeInOutBack"
+      }
+    );
+  });
+
+  $(".previous").click(function () {
+    if (animating) return false;
+    animating = true;
+
+    current_fs = $(this).parent();
+    previous_fs = $(this).parent().prev();
+    $("#progressbar li")
+      .eq($("fieldset").index(current_fs))
+      .removeClass("active");
+
+    previous_fs.show();
+    current_fs.animate(
+      { opacity: 0 },
+      {
+        step: function (now, mx) {
+          scale = 0.8 + (1 - now) * 0.2;
+          left = (1 - now) * 50 + "%";
+          opacity = 1 - now;
+          current_fs.css({ left: left });
+          previous_fs.css({
+            transform: "scale(" + scale + ")",
+            opacity: opacity
+          });
+        },
+        duration: 800,
+        complete: function () {
+          current_fs.hide();
+          animating = false;
+        },
+        easing: "easeInOutBack"
+      }
+    );
+  });
+
+  $(".submit").click(function () {
+    return false;
+  });
+
+  $('#individu').click(function () {
+    $('#form-kelompok').css({ display: 'none' });
+    $('#form-individu').toggle(this.checked)
+  });
+  $('#kelompok').click(function () {
+    $('#form-individu').css({ display: 'none' });
+    $('#form-kelompok').toggle(this.checked)
+  });
+</script>
+
+</html>
