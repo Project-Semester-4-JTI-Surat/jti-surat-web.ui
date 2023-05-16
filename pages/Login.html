@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/login.css">
-    <!-- <link href='https://unpkg.com/css.gg@2.0.0/icons/css/eye.css' rel='stylesheet'> -->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css" />
     <title>UI Login</title>
 </head>
 <body>
@@ -21,8 +21,8 @@
             </div>
             <div class="input-field">
                 <span>Password</span>
-                <input type="password" class="input" placeholder="max 8" required>
-                <!-- <i class="gg-eye"></i> -->
+                <input type="password" class="input" placeholder="max 8" id="password" required>
+                <i class="uil uil-eye-slash pw_hide" aria-hidden="true" id="eye" onclick="toggle()"></i>
             </div>
             
             <div class="right">
@@ -38,11 +38,24 @@
                     <label for="check"> Remember Me</label>
                 </div>  -->
                 <div class="left">
-                    <p><a href="newRegis.html"> Belum punya akun?</a></p>
+                    <p>Belum punya akun?<a href="newRegis.html"> Register</a></p>
                 </div>
             </div>
         </form>
     </div>
    </div>
+   <script>
+    function toggle(){
+            var e = document.getElementById("password");
+            if(e.type === "password"){
+                e.type = "text";
+                e.color = "#84c3fa";
+            }
+            else{
+                e.type = "password";
+                e.color = '#5887ef';
+            }
+        }
+   </script>
 </body>
 </html>
